@@ -70,7 +70,12 @@
                         $.each(response, function(index, user) {
                             $("#userList").append("<p>" + user.username + " - " + user.displayname + " - " + user.email) 
                             //TODO: add a delete button here
-                            
+                            $.each(response, function(index, user) {
+                            $("#userList").append(
+                            "<p>" + user.username + " - " + user.displayname + " - " + user.email +
+                              " <button class='delete-user' data-id='" + user.id + "'>Delete</button></p>"
+                            );
+                          });
                         });
                     },
                     error: function(error) {

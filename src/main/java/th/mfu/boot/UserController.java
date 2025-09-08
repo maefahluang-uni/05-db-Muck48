@@ -27,29 +27,34 @@ public class UserController {
     public ResponseEntity<String> registerUser(@RequestBody User user) {
 
         //TODO: check if user with the username exists
-       
+       User existingUser = repo.findByUsername(user.getUsername());
         //TODO: save the user
-
+        if (existingUser != null) {
         //TODO: remove below and return proper status
-        return new ResponseEntity<>( HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>( HttpStatus.CONFLICT);
     }
+     repo.save(user);
+    return new ResponseEntity<>(HttpStatus.CREATED);
+}
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> list() {
-        
+          List<User> users = repo.findAll();
         //TODO: remove below and return proper result
-        return new ResponseEntity<>( HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         
         //TODO: check if user with the id exists
-       
+       if (!repo.existsById(id)) {
         //TODO: delete the user
-    
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+         repo.deleteById(id);
         //TODO: remove below and return proper status
-        return new ResponseEntity<>( HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
 
